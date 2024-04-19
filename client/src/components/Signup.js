@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 const Signup = ({ login, setErrors }) => {
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     return () => {
       setErrors(null);
     }
   }, [])
+
+  const navigate = useNavigate();
 
   const formSchema = yup.object().shape({
     username: yup.string().required("Must enter a username"),
@@ -35,17 +35,17 @@ const Signup = ({ login, setErrors }) => {
         },
         body: JSON.stringify(values, null, 2)
       })
-        .then(resp => {
-          if(resp.status !== 201) {
-            resp.json().then(data => setErrors(data.error))
-          }
-          else {
-            resp.json().then(data => {
-              login(data)
-              navigate("/users")
-            })
-          }
-        })
+      .then(resp => {
+        if(resp.status === 201) { 
+          resp.json().then(user => {
+            login(user)
+            navigate("/users")
+          })
+        }
+        else {
+          resp.json().then(error => setErrors(error.error))
+        }
+      })
     }
   })
 

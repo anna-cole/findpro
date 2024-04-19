@@ -24,7 +24,7 @@ class Signup(Resource):
             session['user_id'] = user.id
             return user.to_dict(), 201 
         except IntegrityError:   
-            return {'error': '422 Unprocessable Entity'}, 422
+            return {'error': 'Error 422: Unprocessable Entity (username or email already exists).'}, 422
 
 class CheckSession(Resource):
     def get(self):
