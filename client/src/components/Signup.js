@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
@@ -14,16 +14,16 @@ const Signup = ({ login, setErrors }) => {
   const navigate = useNavigate();
 
   const formSchema = yup.object().shape({
-    username: yup.string().required("Must enter a username"),
-    password: yup.string().required("Must enter a password"),
-    email: yup.string().required("Must enter an email")
+    username: yup.string().required("Must enter a username").matches(/^[a-zA-Z ]*$/, 'Must enter only letters').min(4).max(15),
+    email: yup.string().required("Must enter email").email("Invalid email"),
+    password: yup.string().required("Must enter a password").min(4).max(15)
   })
 
   const formik = useFormik({
     initialValues: {
       "username": "",
-      "password": "",
-      "email": ""
+      "email": "",
+      "password": ""
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
@@ -41,8 +41,7 @@ const Signup = ({ login, setErrors }) => {
             login(user)
             navigate("/users")
           })
-        }
-        else {
+        } else {
           resp.json().then(error => setErrors(error.error))
         }
       })
@@ -50,25 +49,53 @@ const Signup = ({ login, setErrors }) => {
   })
 
   return (
-    <div>
-      <h1>Signup</h1>
-      <form onSubmit={formik.handleSubmit}>
+    <div className="app">
+      <header>
+        <h1>Create your account</h1>
+        <img className="background-image" src="https://media.timeout.com/images/103004482/1024/576/image.webp" alt="living room" width="500" height="300"/>
+      </header>
+      <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <div>
-          <label htmlFor="username">Username: </label>
-          <input type="text" name="username" id="username" value={formik.values.username} onChange={ formik.handleChange } />
-          <p style={{color: "red"}}> {formik.errors.username}</p>
+          <label htmlFor="username">Username</label>
+          <br />
+          <input
+            className="field"
+            name="username"
+            onChange={formik.handleChange}
+            value={formik.values.username}
+          />
+          <p style={{ color: "red" }}> {formik.errors.username}</p>
         </div>
         <div>
-          <label htmlFor="password">Password: </label>
-          <input type="password" name="password" id="password" value={formik.values.password} onChange={formik.handleChange} />
-          <p style={{color: "red"}}> {formik.errors.password}</p>
+          <label htmlFor="email">Email Address</label>
+          <br />
+          <input
+            className="field"
+            name="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+          />
+          <p style={{ color: "red" }}> {formik.errors.email}</p>
         </div>
         <div>
-          <label htmlFor="email">Email: </label>
-          <input type="text" name="email" id="email" value={formik.values.email} onChange={formik.handleChange} />
-          <p style={{color: "red"}}> {formik.errors.email}</p>
+          <label htmlFor="password">Password</label>
+          <br />
+          <input
+            className="field"
+            name="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+          />
+          <p style={{ color: "red" }}> {formik.errors.password}</p>
         </div>
-        <input type="submit" value="Create Account" />
+        <div className='password'>
+          <p>Your password must:</p>
+          <ul>
+            <li>be 4 to 15 characters long</li>
+            <li>not be commonly used or easily guessed</li>
+          </ul>
+        </div>
+        <button type="submit" className="submit-button">Create account</button>
       </form>
     </div>
   )

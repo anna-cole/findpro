@@ -45,13 +45,13 @@ function App() {
   return (
     <Router>
       <Navbar logout={logout} loggedIn={loggedIn} />
+      <Errors errors={errors} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup login={login} setErrors={setErrors} />} />
         <Route path="/login" element={<Login login={login} setErrors={setErrors} />} />
         <Route path="/users" element={<UserList users={users} />} />
       </Routes>
-      <Errors errors={errors} />
     </Router>
   )
 }

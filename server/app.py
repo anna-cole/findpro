@@ -43,7 +43,7 @@ class Login(Resource):
             user.authenticate(password)           
             session['user_id'] = user.id
             return user.to_dict(), 200       
-        return {'error': '401 Unauthorized'}, 401
+        return {'error': 'Error 401: Unauthorized (username does not exist, please sign up.)'}, 401
     
 class Logout(Resource):
     def delete(self):
