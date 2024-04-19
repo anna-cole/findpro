@@ -39,7 +39,7 @@ const Signup = ({ login, setErrors }) => {
         if(resp.status === 201) { 
           resp.json().then(user => {
             login(user)
-            navigate("/users")
+            navigate("/pros")
           })
         } else {
           resp.json().then(error => setErrors(error.error))
@@ -52,13 +52,14 @@ const Signup = ({ login, setErrors }) => {
     <div className="app">
       <header>
         <h1>Create your account</h1>
-        <img className="background-image" src="https://media.timeout.com/images/103004482/1024/576/image.webp" alt="living room" width="500" height="300"/>
+        <img className="background-image" src="https://media.timeout.com/images/103004482/1024/576/image.webp" alt="musician" width="500" height="300"/>
       </header>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <div>
           <label htmlFor="username">Username</label>
           <br />
           <input
+            input type="text"
             className="field"
             name="username"
             onChange={formik.handleChange}
@@ -70,6 +71,7 @@ const Signup = ({ login, setErrors }) => {
           <label htmlFor="email">Email Address</label>
           <br />
           <input
+            input type="email"
             className="field"
             name="email"
             onChange={formik.handleChange}
@@ -81,6 +83,7 @@ const Signup = ({ login, setErrors }) => {
           <label htmlFor="password">Password</label>
           <br />
           <input
+            input type="password"
             className="field"
             name="password"
             onChange={formik.handleChange}

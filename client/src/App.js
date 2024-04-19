@@ -3,20 +3,20 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Signup from './components/Signup';
 import Login from './components/Login';
-import UserList from './components/UserList';
+import ProsList from './components/ProsList';
 import Navbar from './components/Navbar';
 import Errors from './components/Errors';
 
 function App() {
-  const [users, setUsers] = useState([]);
+  const [pros, setPros] = useState([]);
   const [errors, setErrors] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    fetch("/users")
+    fetch("/pros")
       .then(resp => resp.json())
-      .then(data => setUsers(data))
+      .then(pros => setPros(pros))
   }, [])
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup login={login} setErrors={setErrors} />} />
         <Route path="/login" element={<Login login={login} setErrors={setErrors} />} />
-        <Route path="/users" element={<UserList users={users} />} />
+        <Route path="/pros" element={<ProsList pros={pros} />} />
       </Routes>
     </Router>
   )

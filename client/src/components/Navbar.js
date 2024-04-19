@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import "../Navbar.css";
 
 const Navbar = ({ loggedIn, logout}) => {
 
@@ -12,25 +12,28 @@ const Navbar = ({ loggedIn, logout}) => {
       method: 'DELETE'
     })
     logout();
-    navigate("/");
+    navigate("/login");
   }
 
   const displayedLinks = loggedIn ? 
-  <ul>
-    <li><Link to="/">Home</Link></li>
-    <li><Link to="#" onClick={handleLogout}>Logout</Link></li>
-    <li><Link to="/users">Users</Link></li>
-    <li>Games</li>
-    <li>My Reviews</li>
-  </ul> : 
-  <ul>
-    <li><Link to="/">Home</Link></li>
-    <li><Link to="/signup">Signup</Link></li>
-    <li><Link to="/login">Login</Link></li>
-  </ul>
-
+  <>
+    <NavLink to="/">Home</NavLink>
+    <NavLink to="/logout" onClick={handleLogout}>Logout</NavLink>
+    <NavLink to="/pros">Pros</NavLink>
+    <NavLink to="/addpro">Join as a pro</NavLink>
+  </> : 
+  <>
+    <NavLink to="/">Home</NavLink>
+    <NavLink to="/signup">Signup</NavLink>
+    <NavLink to="/login">Login</NavLink>
+  </>
+    
   return (
-    <>{displayedLinks}</>
+  <div className="app">
+    <nav className="navbar">  
+      {displayedLinks}
+    </nav>
+  </div>
   )
 }
 

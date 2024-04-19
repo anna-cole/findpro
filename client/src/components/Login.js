@@ -37,7 +37,7 @@ const Login = ({ login, setErrors }) => {
         if(resp.status === 200) {
           resp.json().then(user => {
             login(user)
-            navigate("/users")
+            navigate("/pros")
           })
         } else {
           resp.json().then(data => setErrors(data.error))
@@ -50,14 +50,15 @@ const Login = ({ login, setErrors }) => {
     <div className="app">
       <header>
         <img className="logo" src="https://t3.ftcdn.net/jpg/01/01/41/44/360_F_101414400_WRNfEX3hPMyVQSDzekuzXNqw7Ye1Ov1k.jpg" alt="logo" width="100" height="80"/>
+        <img className="background-image" src="https://www.cleanarte.com/wp-content/uploads/2020/10/Top-To-Bottom-Deep-Cleaning.jpg.webp" alt="cleaner" width="500" height="300"/>
         <h1>Welcome to Findpro!</h1>
-        <img className="background-image" src="https://www.cleanarte.com/wp-content/uploads/2020/10/Top-To-Bottom-Deep-Cleaning.jpg.webp" alt="living room" width="500" height="300"/>
       </header>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <div>
           <label htmlFor="username">Username</label>
           <br />
           <input
+            input type="text"
             className="field"
             name="username"
             onChange={formik.handleChange}
@@ -69,6 +70,7 @@ const Login = ({ login, setErrors }) => {
           <label htmlFor="password">Password</label>
           <br />
           <input
+            input type="password"
             className="field"
             name="password"
             onChange={formik.handleChange}

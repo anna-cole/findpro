@@ -24,7 +24,7 @@ class Signup(Resource):
             session['user_id'] = user.id
             return user.to_dict(), 201 
         except IntegrityError:   
-            return {'error': 'Error 422: Unprocessable Entity (username or email already exists).'}, 422
+            return {'error': 'Error 422: Unprocessable Entity (username already exists)'}, 422
 
 class CheckSession(Resource):
     def get(self):
@@ -36,14 +36,13 @@ class CheckSession(Resource):
     
 class Login(Resource):
     def post(self):
-        username = request.get_json().get('username')
-        password = request.get_json().get('password')
+        username = request.get_json()['username']
+        password = request.get_json()['password']
         user = User.query.filter(User.username == username).first()
-        if user: 
-            user.authenticate(password)           
+        if user.authenticate(password):           
             session['user_id'] = user.id
             return user.to_dict(), 200       
-        return {'error': 'Error 401: Unauthorized (username does not exist, please sign up.)'}, 401
+        return {'error': 'Error 401: Unauthorized (invalid password)'}, 401
     
 class Logout(Resource):
     def delete(self):
