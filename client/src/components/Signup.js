@@ -100,6 +100,11 @@ const Signup = ({ login, setErrors }) => {
         </div>
         <button type="submit" className="submit-button">Create account</button>
       </form>
+      <p> Already have an account? &nbsp;
+        <button color="secondary" onClick={() => navigate("/login")}>
+          Log In
+        </button>
+      </p>
     </div>
   )
 }

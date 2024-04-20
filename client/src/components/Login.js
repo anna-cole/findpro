@@ -51,7 +51,7 @@ const Login = ({ login, setErrors }) => {
       <header>
         <img className="logo" src="https://t3.ftcdn.net/jpg/01/01/41/44/360_F_101414400_WRNfEX3hPMyVQSDzekuzXNqw7Ye1Ov1k.jpg" alt="logo" width="100" height="80"/>
         <img className="background-image" src="https://www.cleanarte.com/wp-content/uploads/2020/10/Top-To-Bottom-Deep-Cleaning.jpg.webp" alt="cleaner" width="500" height="300"/>
-        <h1>Welcome to Findpro!</h1>
+        <h2>Please enter your login details</h2>
       </header>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
         <div>
@@ -80,6 +80,11 @@ const Login = ({ login, setErrors }) => {
         </div>
         <button type="submit" className="submit-button">Log in</button>
       </form>
+      <p> Don't have an account? &nbsp;
+        <button color="secondary" onClick={() => navigate("/signup")}>
+          Sign Up
+        </button>
+      </p>
     </div>
   )
 }
