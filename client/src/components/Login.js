@@ -54,30 +54,26 @@ const Login = ({ login, setErrors }) => {
         <h2>Please enter your login details</h2>
       </header>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <br />
-          <input
-            input type="text"
-            className="field"
-            name="username"
-            onChange={formik.handleChange}
-            value={formik.values.username}
-          />
-          <p style={{ color: "red" }}> {formik.errors.username}</p>
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <br />
-          <input
-            input type="password"
-            className="field"
-            name="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-          <p style={{ color: "red" }}> {formik.errors.password}</p>
-        </div>
+        <label htmlFor="username">Username</label>
+        <br />
+        <input
+          input type="text"
+          className="field"
+          name="username"
+          onChange={formik.handleChange}
+          value={formik.values.username}
+        />
+        <p style={{ color: "red" }}> {formik.errors.username}</p>
+        <label htmlFor="password">Password</label>
+        <br />
+        <input
+          input type="password"
+          className="field"
+          name="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+        />
+        <p style={{ color: "red" }}> {formik.errors.password}</p>
         <button type="submit" className="submit-button">Log in</button>
       </form>
       <p> Don't have an account? &nbsp;

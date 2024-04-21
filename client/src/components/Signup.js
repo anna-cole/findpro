@@ -55,42 +55,36 @@ const Signup = ({ login, setErrors }) => {
         <img className="background-image" src="https://media.timeout.com/images/103004482/1024/576/image.webp" alt="musician" width="500" height="300"/>
       </header>
       <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <br />
-          <input
-            input type="text"
-            className="field"
-            name="username"
-            onChange={formik.handleChange}
-            value={formik.values.username}
-          />
-          <p style={{ color: "red" }}> {formik.errors.username}</p>
-        </div>
-        <div>
-          <label htmlFor="email">Email Address</label>
-          <br />
-          <input
-            input type="email"
-            className="field"
-            name="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
-          <p style={{ color: "red" }}> {formik.errors.email}</p>
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <br />
-          <input
-            input type="password"
-            className="field"
-            name="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
-          <p style={{ color: "red" }}> {formik.errors.password}</p>
-        </div>
+        <label htmlFor="username">Username</label>
+        <br />
+        <input
+          input type="text"
+          className="field"
+          name="username"
+          onChange={formik.handleChange}
+          value={formik.values.username}
+        />
+        <p style={{ color: "red" }}> {formik.errors.username}</p>
+        <label htmlFor="email">Email Address</label>
+        <br />
+        <input
+          input type="email"
+          className="field"
+          name="email"
+          onChange={formik.handleChange}
+          value={formik.values.email}
+        />
+        <p style={{ color: "red" }}> {formik.errors.email}</p>
+        <label htmlFor="password">Password</label>
+        <br />
+        <input
+          input type="password"
+          className="field"
+          name="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+        />
+        <p style={{ color: "red" }}> {formik.errors.password}</p>
         <div className='password'>
           <p>Your password must:</p>
           <ul>
