@@ -12,6 +12,7 @@ function App() {
   const [errors, setErrors] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [pros, setPros] = useState([]);
 
   useEffect(() => {
     fetch("/check_session")
@@ -20,6 +21,12 @@ function App() {
         r.json().then(user => login(user))
       }
     })
+  }, [])
+
+  useEffect(() => {
+    fetch("/pros")
+      .then(resp => resp.json())
+      .then(pros => setPros(pros))
   }, [])
 
   const login = user => {
@@ -31,6 +38,27 @@ function App() {
     setCurrentUser(null)
     setLoggedIn(false)
   }
+
+  // DO THIS NOW:  
+  // const addPro = pro => {
+  //   setPros([...pros, pro])
+  // }
+
+  const updatePro = updatedProObj => {
+    const updatedPros = pros.map(pro => {
+      if (pro.id === updatedProObj.id) {
+        return updatedProObj
+      } else {
+        return pro
+      }
+    })
+    setPros(updatedPros)
+  }
+
+  const deletePro = id => {
+    const updatedPros = pros.filter(pro => pro.id !== id)
+    setPros(updatedPros)
+  }
   
   return (
     <Router>
@@ -40,8 +68,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup login={login} setErrors={setErrors} />} />
         <Route path="/login" element={<Login login={login} setErrors={setErrors} />} />
-        <Route path="/pros" element={<ProsList />} />
-        <Route path="/pros/:id" element={<Pro />} />
+        <Route path="/pros" element={<ProsList pros={pros}/>} />
+        <Route path="/pros/:id" element={<Pro currentUser={currentUser} deletePro={deletePro} updatePro={updatePro} />} />
       </Routes>
     </Router>
   )

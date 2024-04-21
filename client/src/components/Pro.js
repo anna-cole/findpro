@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import EditPro from "./EditPro";
 // import AddReview from "./AddReview";
 
-const Pro = () => {
+const Pro = ({ currentUser, deletePro, updatePro }) => {
   const [pro, setPro] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
   const [reviews, setReviews] = useState([])
   const params = useParams();
   const proId = params.id;
@@ -26,6 +28,20 @@ const Pro = () => {
     })
   }, [])
 
+  const handleDelete = () => {
+    if (currentUser.id === pro.id) {
+      fetch(`/pros/${pro.id}`, {method: "DELETE"})
+      deletePro(pro.id)
+    } 
+  }
+
+  const onUpdatePro = updatedPro => {
+    if (currentUser.id === pro.id) {
+      setIsEditing(false)
+      updatePro(updatedPro)
+    }
+  }
+
   // const submitNewReview = (newReview) => {
   //   setReviews([...reviews, newReview])
   // }
@@ -47,6 +63,17 @@ const Pro = () => {
         <li>Services: {pro.service}</li>
         <li>Serves: {pro.area_served}</li>
       </ul>
+      {currentUser.id === pro.id ? (
+        <>
+          <button onClick={handleDelete}>Delete</button>&nbsp;
+          <button onClick={() => setIsEditing((isEditing) => !isEditing)}>Edit</button>
+        </>
+      ) : null}
+      {isEditing ? (
+        <EditPro pro={pro} onUpdatePro={onUpdatePro} />
+      ) : null}
+
+
       <h3>Reviews:</h3>
       {reviewsToDisplay.map(review => 
         <ul key={review.id} className="reviews-list">
