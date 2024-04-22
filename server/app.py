@@ -149,8 +149,8 @@ class ReviewsByProName(Resource):
         return [review.to_dict(only=('id', 'content', 'rating', 'pro.name', 'user.username',)) for review in pro.reviews], 200
     
 class ReviewsByProId(Resource):
-    def get(self, id):
-        pro = Pro.query.filter_by(id=id).first()
+    def get(self, pro_id):
+        pro = Pro.query.filter_by(id=pro_id).first()
         return [review.to_dict(only=('id', 'content', 'rating', 'pro.name', 'user.username',)) for review in pro.reviews], 200
     
 class ReviewsByContent(Resource):
@@ -180,7 +180,7 @@ api.add_resource(BestPro, '/pros/best_pro', endpoint='pros/best_pro')
 api.add_resource(Reviews, '/reviews', endpoint='reviews')
 api.add_resource(SortReviewsByRating, '/reviews/by_rating', endpoint='reviews/by_rating')
 api.add_resource(ReviewsByProName, '/reviews/<string:name>', endpoint='reviews/name')
-api.add_resource(ReviewsByProId, '/reviews/<int:id>', endpoint='reviews/id')
+api.add_resource(ReviewsByProId, '/reviews/<int:pro_id>', endpoint='reviews/pro_id')
 api.add_resource(ReviewsByContent, '/reviews/search_by_content/<string:content>', endpoint='reviews/search_by_content/content')
 api.add_resource(Users, '/users', endpoint='users')  
 
