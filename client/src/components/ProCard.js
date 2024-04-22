@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import EditPro from "./EditPro";
 
 const ProCard = ({ pro, currentUser, deletePro, updatePro }) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); 
 
   const handleDelete = () => {
     if (currentUser.username === pro.name) {

@@ -7,8 +7,6 @@ const Pro = () => {
   const [reviews, setReviews] = useState([]);
   const params = useParams();
   const proId = params.id;
-
-  console.log(pro.id)
  
   useEffect(() => {
     fetch(`/pros/${proId}`)
