@@ -155,9 +155,11 @@ class ReviewsByProId(Resource):
     
 class ReviewsByContent(Resource):
     def get(self, content):
-        all_reviews = Review.query.all()
-        matching_reviews = [review.to_dict() for review in all_reviews if any(word in review.content.lower() for word in content.lower().split())]
-        return matching_reviews, 200
+        # all_reviews = Review.query.all()
+        # matching_reviews = [review.to_dict() for review in all_reviews if any(word in review.content.lower() for word in content.lower().split())]
+        # return matching_reviews, 200
+        reviews = Review.query.all()
+        return [review.to_dict() for review in reviews if content.lower() in review.content.lower()], 200
 
 class Users(Resource):
     def get(self):        
