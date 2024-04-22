@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import AddReview from "./AddReview";
+import ProReviews from "./ProReviews";
 
 const Pro = () => {
   const [pro, setPro] = useState({});
   const [reviews, setReviews] = useState([]);
   const params = useParams();
   const proId = params.id;
+
+  console.log(pro.id)
  
   useEffect(() => {
     fetch(`/pros/${proId}`)
@@ -14,26 +16,15 @@ const Pro = () => {
       if (r.ok) {
         r.json().then(pro => {
           setPro(pro)
+          setReviews(pro.reviews)
         })
       }
     })
   }, [proId])
 
-  useEffect(() => {
-    fetch("/reviews")
-    .then(r => {
-      if (r.ok) {
-        r.json().then(reviews => setReviews(reviews));
-      }
-    })
-  }, [])
-
-  // const submitNewReview = (newReview) => {
-  //   setReviews([...reviews, newReview])
-  // }
-
-  const reviewsToDisplay = 
-  reviews.filter(review => review.pro_id === pro.id)
+  const submitNewReview = (newReview) => {
+    setReviews([...reviews, newReview])
+  }
   
   if (!pro.name) {
     return <h1>Loading...</h1>
@@ -49,17 +40,7 @@ const Pro = () => {
         <li>Services: {pro.service}</li>
         <li>Serves: {pro.area_served}</li>
       </ul>
-
-      <h3>Reviews:</h3>
-      {reviewsToDisplay.map(review => 
-        <ul key={review.id} className="reviews-list">
-          <li>User: {review.user.username}</li>
-          <li>Rating: {Array(review.rating).fill("⭐").join("")}</li>
-          <li>{review.content}</li>
-        </ul>
-      )}
-      <h3>Add a review for this pro</h3>
-      {/* <AddReview pro={pro} submitNewReview={submitNewReview}/> */}
+      <ProReviews submitNewReview={submitNewReview} reviews={reviews} pro={pro}/>
     </div>
   )
 }
