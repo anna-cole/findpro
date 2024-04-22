@@ -32,25 +32,14 @@ const EditPro = ({ pro, onUpdatePro }) => {
           })
         } 
       })
-    },
+    }
   })
 
   return (
-    <form className="edit-message" onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
-      <label htmlFor="name">Name</label>
-      <br/>
-      <input
-        type="text"
-        className="field"
-        name="name"
-        onChange={formik.handleChange}
-        value={formik.values.name}
-      />
-      <p style={{ color: "red" }}> {formik.errors.name}</p>
+    <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
       <label htmlFor="image_url">Image</label>
       <br/>
       <input
-        type="url"
         className="field"
         name="image_url"
         onChange={formik.handleChange}
@@ -60,7 +49,6 @@ const EditPro = ({ pro, onUpdatePro }) => {
       <label htmlFor="service">Service</label>
       <br/>
       <input
-        type="text"
         className="field"
         name="service"
         onChange={formik.handleChange}
@@ -70,14 +58,13 @@ const EditPro = ({ pro, onUpdatePro }) => {
       <label htmlFor="area_served">Area served</label>
       <br/>
       <input
-        type="text"
         className="field"
         name="area_served"
         onChange={formik.handleChange}
         value={formik.values.area_served}
       />
       <p style={{ color: "red" }}> {formik.errors.area_served}</p>
-      <input type="submit" value="Save"/>
+      <button type="submit" className="submit-button">Save</button>
     </form>
   )
 }

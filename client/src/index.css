@@ -204,48 +204,6 @@ li h3 {
   max-width: 600px;
 }
 
-/* chat list edit */
-form.edit-message {
-  display: flex;
-  flex-direction: column;
-}
-
-form.edit-message input[type="text"] {
-  margin-top: 0.5rem;
-  border: 1px solid transparent;
-  background-color: var(--bg-color-3);
-}
-
-form.edit-message input[type="text"]:focus {
-  border: 1px solid var(--bg-color-2);
-}
-
-form.edit-message input[type="submit"] {
-  margin-top: 0.5rem;
-  width: 100px;
-}
-
-/* new message */
-form.new-message {
-  display: flex;
-}
-
-form.new-message input[type="text"] {
-  flex: 1 1 auto;
-}
-
-form.new-message input[type="text"]:focus {
-  padding: 1rem;
-}
-
-form.new-message input[type="submit"] {
-  opacity: 0.8;
-}
-
-form.new-message input[type="submit"]:focus {
-  outline: none;
-  opacity: 1;
-}
 
 
 

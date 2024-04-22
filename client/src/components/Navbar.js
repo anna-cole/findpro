@@ -20,7 +20,7 @@ const Navbar = ({ loggedIn, logout}) => {
     <NavLink to="/">Home</NavLink>
     <NavLink to="/logout" onClick={handleLogout}>Logout</NavLink>
     <NavLink to="/pros">Pros</NavLink>
-    <NavLink to="/addpro">Join as a pro</NavLink>
+    <NavLink to="/newpro">Join as a pro</NavLink>
   </> : 
   <>
     <NavLink to="/">Home</NavLink>

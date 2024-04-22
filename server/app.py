@@ -58,17 +58,18 @@ class Pros(Resource):
         return make_response(resp, 200)
     
     def post(self):
+        user_id = session['user_id']
+        user = User.query.filter(User.id == user_id).first()
         name = request.get_json().get('name')
         image_url = request.get_json().get('image_url') 
         service = request.get_json().get('service')
         area_served = request.get_json().get('area_served')
-        try:
+        if name == user.username: 
             pro = Pro(name=name, image_url=image_url, service=service, area_served=area_served)
             db.session.add(pro)
             db.session.commit()
             return pro.to_dict(), 201 
-        except IntegrityError:   
-            return {'error': '422 Unprocessable Entity'}, 422
+        return {'error': 'Error 422: Unprocessable Entity (enter your username)'}, 422
 
 class ProByID(Resource):
 

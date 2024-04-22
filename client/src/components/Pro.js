@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import EditPro from "./EditPro";
 // import AddReview from "./AddReview";
 
-const Pro = ({ currentUser, deletePro, updatePro }) => {
+const Pro = () => {
   const [pro, setPro] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
-  const [reviews, setReviews] = useState([])
+  const [reviews, setReviews] = useState([]);
   const params = useParams();
   const proId = params.id;
  
@@ -14,7 +12,9 @@ const Pro = ({ currentUser, deletePro, updatePro }) => {
     fetch(`/pros/${proId}`)
     .then(r => {
       if (r.ok) {
-        r.json().then(pro => setPro(pro))
+        r.json().then(pro => {
+          setPro(pro)
+        })
       }
     })
   }, [proId])
@@ -27,20 +27,6 @@ const Pro = ({ currentUser, deletePro, updatePro }) => {
       }
     })
   }, [])
-
-  const handleDelete = () => {
-    if (currentUser.id === pro.id) {
-      fetch(`/pros/${pro.id}`, {method: "DELETE"})
-      deletePro(pro.id)
-    } 
-  }
-
-  const onUpdatePro = updatedPro => {
-    if (currentUser.id === pro.id) {
-      setIsEditing(false)
-      updatePro(updatedPro)
-    }
-  }
 
   // const submitNewReview = (newReview) => {
   //   setReviews([...reviews, newReview])
@@ -63,16 +49,6 @@ const Pro = ({ currentUser, deletePro, updatePro }) => {
         <li>Services: {pro.service}</li>
         <li>Serves: {pro.area_served}</li>
       </ul>
-      {currentUser.id === pro.id ? (
-        <>
-          <button onClick={handleDelete}>Delete</button>&nbsp;
-          <button onClick={() => setIsEditing((isEditing) => !isEditing)}>Edit</button>
-        </>
-      ) : null}
-      {isEditing ? (
-        <EditPro pro={pro} onUpdatePro={onUpdatePro} />
-      ) : null}
-
 
       <h3>Reviews:</h3>
       {reviewsToDisplay.map(review => 

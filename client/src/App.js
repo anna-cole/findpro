@@ -7,6 +7,7 @@ import ProsList from './components/ProsList';
 import Navbar from './components/Navbar';
 import Errors from './components/Errors';
 import Pro from './components/Pro';
+import ProForm from './components/ProForm';
 
 function App() {
   const [errors, setErrors] = useState(null);
@@ -39,10 +40,9 @@ function App() {
     setLoggedIn(false)
   }
 
-  // DO THIS NOW:  
-  // const addPro = pro => {
-  //   setPros([...pros, pro])
-  // }
+  const addPro = newPro => {
+    setPros([...pros, newPro])
+  }
 
   const updatePro = updatedProObj => {
     const updatedPros = pros.map(pro => {
@@ -68,8 +68,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup login={login} setErrors={setErrors} />} />
         <Route path="/login" element={<Login login={login} setErrors={setErrors} />} />
-        <Route path="/pros" element={<ProsList pros={pros}/>} />
-        <Route path="/pros/:id" element={<Pro currentUser={currentUser} deletePro={deletePro} updatePro={updatePro} />} />
+        <Route path="/pros" element={<ProsList pros={pros} currentUser={currentUser} deletePro={deletePro} updatePro={updatePro} />} />
+        <Route path="/pros/:id" element={<Pro />} />
+        <Route path="/newpro" element={<ProForm addPro={addPro} setErrors={setErrors} />} />
       </Routes>
     </Router>
   )

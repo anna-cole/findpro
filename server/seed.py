@@ -23,7 +23,7 @@ if __name__ == '__main__':
         users = []
         usernames = []
 
-        for i in range(10):
+        for i in range(5):
         
             username = fake.first_name()
             while username in usernames:
