@@ -27,14 +27,18 @@ const Pro = () => {
   if (!pro.name) {
     return <h1>Loading...</h1>
   }
-  
+
+  const proReviews = pro.reviews; 
+  const totalRating = proReviews.reduce((accumulator, review) => accumulator + review.rating, 0);
+  const averageRating = totalRating / proReviews.length;
+  const stars = "⭐".repeat(averageRating)
+
   return (
     <div className="app">
       <h2>{pro.name}</h2>
       <img className="background-image" src={pro.image_url} alt={pro.name} width="300" height="300"/>
       <ul>
-        <li>Average rating: {pro.average_rating} &nbsp;
-        {Array(pro.average_rating).fill("⭐").join("")}</li>
+        <li>Average rating: {averageRating ? `${averageRating} ${stars}` : null}</li>
         <li>Services: {pro.service}</li>
         <li>Serves: {pro.area_served}</li>
       </ul>

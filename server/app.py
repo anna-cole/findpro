@@ -120,6 +120,8 @@ class BestPro(Resource):
         pro = Pro.query.order_by(desc('average_rating')).first() 
         return pro.to_dict(), 200
     
+# class ProsByCommentRating
+    
 class Reviews(Resource):
     def get(self):       
         reviews = Review.query.all()
