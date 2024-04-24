@@ -71,7 +71,7 @@ class Pros(Resource):
             return pro.to_dict(), 201 
         return {'error': 'Error 422: Unprocessable Entity (enter your username)'}, 422
 
-class ProByID(Resource):
+class ProById(Resource):
 
     def get(self, id):
         pro = Pro.query.filter_by(id=id).first()
@@ -96,13 +96,12 @@ class ProByID(Resource):
     
 class ProByName(Resource):
     def get(self, name):
-        all_pros = Pro.query.all()
-        matching_pros = [pro.to_dict() for pro in all_pros if pro.name.lower() == name.lower()]
-        return matching_pros, 200
+        pros = Pro.query.all()
+        return [pro.to_dict() for pro in pros if pro.name.lower() == name.lower()], 200
     
 class ProsByService(Resource):
     def get(self, service):
-        pros = Pro.query.filter_by(service=service).all()
+        pros = Pro.query.filter(Pro.service==service).all()
         return [pro.to_dict() for pro in pros], 200
     
 class ProsByAverageRating(Resource):
@@ -112,7 +111,9 @@ class ProsByAverageRating(Resource):
     
 class SortProsByAverageRating(Resource):
     def get(self):
-        pros = Pro.query.order_by(desc('average_rating')).all() # need to import desc
+        # pros = Pro.query.order_by(desc('average_rating')).all() # need to import desc
+        # return [pro.to_dict() for pro in pros], 200
+        pros = Pro.query.order_by(Pro.average_rating.desc()).all() # you can use asc for ascending
         return [pro.to_dict() for pro in pros], 200
     
 class BestPro(Resource):
@@ -120,10 +121,24 @@ class BestPro(Resource):
         pro = Pro.query.order_by(desc('average_rating')).first() 
         return pro.to_dict(), 200
     
-class ProsByCommentRating(Resource):
+class ProsByReviewRating(Resource):
     def get(self, rating):
-        filtered_reviews = Review.query.filter_by(rating=rating).all()
-        return [review.pro.to_dict(only=('id', 'name', 'service', 'average_rating', 'reviews.rating',)) for review in filtered_reviews], 200
+        reviews = Review.query.filter_by(rating=rating).all()
+        return [review.pro.to_dict(only=('id', 'name', 'service', 'reviews.rating',)) for review in reviews], 200
+    # def get(self):
+    # reviews = Review.query.all()
+    # return [review.pro.to_dict(only=('id', 'name')) for review in reviews if review.rating == 10], 200 
+
+class SortProsByNumberOfReviews(Resource):
+    def get(self):
+        pros = Pro.query.all()
+        pros.sort(reverse=True, key=lambda pro: len(pro.reviews))
+        return [pro.to_dict() for pro in pros], 200
+    
+class ProsReviewedByUser(Resource):
+    def get(self, username):
+        user = User.query.filter_by(username=username).first()
+        return [pro.to_dict(only=('id', 'name', 'reviews.content', 'reviews.user.username', 'reviews.rating',)) for pro in user.pros], 200
         
 class Reviews(Resource):
     def get(self):       
@@ -143,20 +158,27 @@ class Reviews(Resource):
         except IntegrityError:   
             return {'error': '422 Unprocessable Entity'}, 422
         
+class ReviewById(Resource):
+    def get(self, id):
+        review = Review.query.filter_by(id=id).first()
+        if review:
+            return make_response(jsonify(review.to_dict()), 200)
+        return {'error': '422 Unprocessable Entity'}, 422
+    
 class SortReviewsByRating(Resource):
     def get(self):
-        reviews = Review.query.order_by(Review.rating.desc()).all() # another way to sort, without importing desc
-        return [review.to_dict(only=('id', 'content', 'rating', 'pro.name', 'user.username',)) for review in reviews], 200
-    
-class ReviewsByProName(Resource):
-    def get(self, name):
-        pro = Pro.query.filter_by(name=name).first()
-        return [review.to_dict(only=('id', 'content', 'rating', 'pro.name', 'user.username',)) for review in pro.reviews], 200
+        reviews = Review.query.order_by(Review.rating.desc()).all() # no need to import desc
+        return [review.to_dict(only=('id', 'content', 'rating', 'pro.name', 'pro.id', 'user.username',)) for review in reviews], 200
     
 class ReviewsByProId(Resource):
     def get(self, pro_id):
         pro = Pro.query.filter_by(id=pro_id).first()
-        return [review.to_dict(only=('id', 'content', 'rating', 'pro.name', 'user.username',)) for review in pro.reviews], 200
+        return [review.to_dict(only=('id', 'content', 'rating', 'pro.name', 'pro.id', 'user.username',)) for review in pro.reviews], 200
+    
+class ReviewsByUser(Resource):
+    def get(self, username):
+        user = User.query.filter_by(username=username).first()
+        return [review.to_dict() for review in user.reviews]
     
 class ReviewsByContent(Resource):
     def get(self, content):
@@ -171,24 +193,41 @@ class Users(Resource):
         users = User.query.all()
         return [user.to_dict() for user in users], 200
     
+class UserById(Resource):
+    def get(self, id):
+        user = User.query.filter_by(id=id).first()
+        if user:
+            return make_response(jsonify(user.to_dict()), 200)
+        return {'error': '422 Unprocessable Entity'}, 422
+    
+class UsersByReviewRating(Resource):
+    def get(self, rating):
+        reviews = Review.query.filter(Review.rating==rating).all()
+        return [user.to_dict() for user in reviews.user], 200
+    
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
 api.add_resource(Login, '/login', endpoint='login')
 api.add_resource(Logout, '/logout', endpoint='logout')
 api.add_resource(Pros, '/pros', endpoint='pros')
-api.add_resource(ProByID, '/pros/<int:id>', endpoint='pros/id')
+api.add_resource(ProById, '/pros/<int:id>', endpoint='pros/id')
 api.add_resource(ProByName, '/pros/<string:name>', endpoint='pros/name')
 api.add_resource(ProsByService, '/pros/<string:service>', endpoint='pros/service')
 api.add_resource(ProsByAverageRating, '/pros/average_rating/<int:average_rating>', endpoint='pros/average_rating/average_rating')
 api.add_resource(SortProsByAverageRating, '/pros/by_average_rating', endpoint='pros/by_average_rating')
 api.add_resource(BestPro, '/pros/best_pro', endpoint='pros/best_pro')
-api.add_resource(ProsByCommentRating, '/pros/pros_by_comment_rating/<int:rating>', endpoint='pros/pros_by_comment_rating/rating')
+api.add_resource(ProsByReviewRating, '/pros/pros_by_review_rating/<int:rating>', endpoint='pros/pros_by_review_rating/rating')
+api.add_resource(SortProsByNumberOfReviews, '/pros/pros_by_number_of_reviews', endpoint='pros/pros_by_number_of_reviews')
+api.add_resource(ProsReviewedByUser, '/pros/pros_by_user/<string:username>', endpoint='pros/pros_by_user/username')
 api.add_resource(Reviews, '/reviews', endpoint='reviews')
+api.add_resource(ReviewById, '/reviews/<int:id>', endpoint='reviews/id')
 api.add_resource(SortReviewsByRating, '/reviews/by_rating', endpoint='reviews/by_rating')
-api.add_resource(ReviewsByProName, '/reviews/<string:name>', endpoint='reviews/name')
-api.add_resource(ReviewsByProId, '/reviews/<int:pro_id>', endpoint='reviews/pro_id')
+api.add_resource(ReviewsByProId, '/reviews/reviews_by_pro/<int:pro_id>', endpoint='reviews/reviews_by_pro/pro_id')
+api.add_resource(ReviewsByUser, '/reviews/reviews_by_user/<string:username>', endpoint='reviews/reviews_by_user/username')
 api.add_resource(ReviewsByContent, '/reviews/search_by_content/<string:content>', endpoint='reviews/search_by_content/content')
-api.add_resource(Users, '/users', endpoint='users')  
+api.add_resource(Users, '/users', endpoint='users') 
+api.add_resource(UserById, '/users/<int:id>', endpoint='users/id')
+api.add_resource(UsersByReviewRating, '/users/users_by_review_rating/<int:rating>', endpoint='users/users_by_review_rating/rating') 
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
