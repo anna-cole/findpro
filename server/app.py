@@ -110,7 +110,7 @@ class ProsByAverageRating(Resource):
         pros = Pro.query.filter_by(average_rating=average_rating).all()
         return [pro.to_dict() for pro in pros], 200
     
-class SortProsByRating(Resource):
+class SortProsByAverageRating(Resource):
     def get(self):
         pros = Pro.query.order_by(desc('average_rating')).all() # need to import desc
         return [pro.to_dict() for pro in pros], 200
@@ -120,8 +120,11 @@ class BestPro(Resource):
         pro = Pro.query.order_by(desc('average_rating')).first() 
         return pro.to_dict(), 200
     
-# class ProsByCommentRating
-    
+class ProsByCommentRating(Resource):
+    def get(self, rating):
+        filtered_reviews = Review.query.filter_by(rating=rating).all()
+        return [review.pro.to_dict(only=('id', 'name', 'service', 'average_rating', 'reviews.rating',)) for review in filtered_reviews], 200
+        
 class Reviews(Resource):
     def get(self):       
         reviews = Review.query.all()
@@ -177,8 +180,9 @@ api.add_resource(ProByID, '/pros/<int:id>', endpoint='pros/id')
 api.add_resource(ProByName, '/pros/<string:name>', endpoint='pros/name')
 api.add_resource(ProsByService, '/pros/<string:service>', endpoint='pros/service')
 api.add_resource(ProsByAverageRating, '/pros/average_rating/<int:average_rating>', endpoint='pros/average_rating/average_rating')
-api.add_resource(SortProsByRating, '/pros/by_average_rating', endpoint='pros/by_average_rating')
+api.add_resource(SortProsByAverageRating, '/pros/by_average_rating', endpoint='pros/by_average_rating')
 api.add_resource(BestPro, '/pros/best_pro', endpoint='pros/best_pro')
+api.add_resource(ProsByCommentRating, '/pros/pros_by_comment_rating/<int:rating>', endpoint='pros/pros_by_comment_rating/rating')
 api.add_resource(Reviews, '/reviews', endpoint='reviews')
 api.add_resource(SortReviewsByRating, '/reviews/by_rating', endpoint='reviews/by_rating')
 api.add_resource(ReviewsByProName, '/reviews/<string:name>', endpoint='reviews/name')
