@@ -14,7 +14,7 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String, nullable=False)
 
     # Relationship mapping the user to related reviews.
-    reviews = db.relationship('Review', back_populates="user")
+    reviews = db.relationship('Review', back_populates='user', cascade='all, delete-orphan')
 
     # Association proxy to get pros for this user through reviews. Establishes the many-to-many relationship between users and pros.
     pros = association_proxy('reviews', 'pro', creator=lambda pro_obj: Review(pro=pro_obj))
@@ -67,7 +67,7 @@ class Pro(db.Model, SerializerMixin):
     area_served = db.Column(db.String, nullable=False)
 
     # Relationship mapping the pro to related reviews.
-    reviews = db.relationship('Review', back_populates="pro")
+    reviews = db.relationship('Review', back_populates='pro', cascade='all, delete-orphan')
 
     # Association proxy to get users for this pro through reviews. Establishes the many-to-many relationship between users and pros.
     users = association_proxy('reviews', 'user', creator=lambda user_obj: Review(user=user_obj))

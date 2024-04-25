@@ -50,7 +50,7 @@ class Logout(Resource):
             session['user_id'] = None
             return {}, 204
         return {'error': '401 Unauthorized'}, 401
-
+       
 class Pros(Resource):
     def get(self):        
         pros = Pro.query.all()
@@ -132,8 +132,14 @@ class ProsByReviewRating(Resource):
 class SortProsByNumberOfReviews(Resource):
     def get(self):
         pros = Pro.query.all()
-        pros.sort(reverse=True, key=lambda pro: len(pro.reviews))
+        pros.sort(reverse=True, key=lambda pro: len(pro.reviews)) # Python sort() method, it doesn't return anything, it only sorts the original list, so don't save it in a variable.
         return [pro.to_dict() for pro in pros], 200
+    
+class FilterProsByNumberOfReviews(Resource):
+    def get(self, n):
+        pros = Pro.query.all()
+        filtered_list = filter(lambda pro: len(pro.reviews) >= n, pros)  # to filter the pros whose reviews are equal or greater than n, use the Python filter function. It returns a new list, so to work you need to save it in a variable, otherwise you will get the original list. filtered_list = filter(function, list)
+        return [pro.to_dict(only=('name', 'reviews.content', 'reviews.rating')) for pro in filtered_list], 200
     
 class ProsReviewedByUser(Resource):
     def get(self, username):
@@ -218,6 +224,7 @@ api.add_resource(SortProsByAverageRating, '/pros/by_average_rating', endpoint='p
 api.add_resource(BestPro, '/pros/best_pro', endpoint='pros/best_pro')
 api.add_resource(ProsByReviewRating, '/pros/pros_by_review_rating/<int:rating>', endpoint='pros/pros_by_review_rating/rating')
 api.add_resource(SortProsByNumberOfReviews, '/pros/pros_by_number_of_reviews', endpoint='pros/pros_by_number_of_reviews')
+api.add_resource(FilterProsByNumberOfReviews, '/pro_reviews/<int:n>', endpoint='pro_reviews/n')
 api.add_resource(ProsReviewedByUser, '/pros/pros_by_user/<string:username>', endpoint='pros/pros_by_user/username')
 api.add_resource(Reviews, '/reviews', endpoint='reviews')
 api.add_resource(ReviewById, '/reviews/<int:id>', endpoint='reviews/id')
