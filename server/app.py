@@ -203,7 +203,7 @@ class UserById(Resource):
 class UsersByReviewRating(Resource):
     def get(self, rating):
         reviews = Review.query.filter(Review.rating==rating).all()
-        return [user.to_dict() for user in reviews.user], 200
+        return [review.user.to_dict() for review in reviews], 200
     
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
