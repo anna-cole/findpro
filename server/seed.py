@@ -40,6 +40,7 @@ if __name__ == '__main__':
             users.append(user)
 
         db.session.add_all(users)
+        db.session.commit()
 
         print("Creating pros...")
 
@@ -75,6 +76,7 @@ if __name__ == '__main__':
             pros.append(pro)
 
         db.session.add_all(pros)
+        db.session.commit()
 
         print("Creating reviews...")
         reviews = []
@@ -92,8 +94,8 @@ if __name__ == '__main__':
             reviews.append(review)
 
         db.session.add_all(reviews)
-
         db.session.commit()
+        
         print("Complete.")
 
 
