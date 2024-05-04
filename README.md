@@ -5,7 +5,7 @@ We hope you enjoy and we look forward to your contributions!
 
 ## Techinical description
 
-This app uses Flask to build an API backend, Flask-RESTful for its routes and Flask-SQLAlchemy, Flask-Migrate, and SQLAlchemy-Serializer for its models and database. It has database constraints and Formik validations to validate data and protect the database. An ORM – Object Relational Mapping was implemented to manipulate data to and from the database. 
+This app uses Flask to build an API backend, Flask-RESTful for its routes and Flask-SQLAlchemy, Flask-Migrate, and SQLAlchemy-Serializer for its models and database. It has database constraints and Formik validations to validate data and protect the database. SQLAlchemy is used as the ORM – Object Relational Mapping technology to manipulate data to and from the database. 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -21,7 +21,7 @@ After sign up or log in, the user will land on the home page, where they can nav
 
 ## Installing and running the server
 
-To install and run Findpro, ensure that you have Python 3 and pip installed in your system.
+To install and run the server, ensure that you have Python 3 and pip installed in your system.
 
 1. Clone this repository to your local machine and navigate to its directory.
 2. Run pipenv install to install all the necessary package dependencies.
@@ -48,7 +48,7 @@ Logout - allows users to log out from the session.
 
 Pros - displays a list with all pros and also adds a new pro to the database.
 
-ProsByID - displays a selected pro and its details. It can also update and delete this pro from the database.
+ProByID - displays a selected pro and its details. It can also update and delete this pro from the database.
 
 Reviews - displays a list with all reviews and also adds a review to the database.
 
