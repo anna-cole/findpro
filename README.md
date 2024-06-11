@@ -1,5 +1,5 @@
 # Findpro
-Findpro is an American services website. It is an online directory that allows users to view, search for, review and hire local service providers. It also allows users to create, delete and update their own pro profile, if they want to.
+Findpro is an web application that allows users to view, search for, review and hire local service providers. It also allows users to create, delete and update their own pro profile, if they want to.
 
 We hope you enjoy and we look forward to your contributions!
 
