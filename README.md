@@ -49,7 +49,7 @@ Reviews - displays a list with all reviews and also adds a review to the databas
 Users - displays a list with all users.
 
 ## Video demo of the app
-[Video showing features](https://www.youtube.com/watch?v=eIfposqKA_s)
+[Video showing features](https://www.loom.com/share/15979e0da48d4ee8bbc7216940384050?sid=8a43bbf4-4e8f-4126-aa33-10603fa421a6)
 
 ## Check my blog post about a technique used in this app! 
 [An outline for planning the creation of a full stack application with a React frontend and a Python backend](https://medium.com/@anna-cole/an-outline-for-planning-the-creation-of-a-full-stack-application-with-a-react-frontend-and-a-python-57b47d46165a)
