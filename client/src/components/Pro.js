@@ -30,7 +30,7 @@ const Pro = () => {
 
   const proReviews = pro.reviews; 
   const totalRating = proReviews.reduce((accumulator, review) => accumulator + review.rating, 0);
-  const averageRating = totalRating / proReviews.length;
+  const averageRating = (totalRating / proReviews.length).toFixed(0);
   const stars = "⭐".repeat(averageRating)
 
   return (
