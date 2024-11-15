@@ -1,5 +1,7 @@
-# Findpro
-Findpro is a web application for users to view, search, review and hire local service providers. Users can also create, delete and update their profile.
+# Findpro - Service Provider Search and Hiring App
+A versatile platform that allows users to search for, review, and hire service providers across various industries. The app offers a seamless experience for finding trusted professionals, backed by a robust user authentication system and secure password encryption. Users can browse through detailed reviews, make informed hiring decisions, and manage their service requests with ease, all while ensuring their personal data is protected.
+
+React | Formik | Yup | Auth | Python | RESTful APIs | SQLAlchemy | Flask
 
 We hope you enjoy and we look forward to your contributions!
 
